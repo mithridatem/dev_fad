@@ -4,7 +4,7 @@
     //variable paramètre date
     $date = '2023-01-00';
     //requête préparée 
-    $req = $bdd->prepare('SELECT * FROM article WHERE date_article < ?');
+    $req = $bdd->prepare('SELECT id_article FROM article WHERE date_article < ?');
     //affecter une valeur au ?
     //paramétre : position du ?, variable (données), typage
     $req->bindParam(1, $date, PDO::PARAM_STR);
