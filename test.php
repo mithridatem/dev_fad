@@ -8,12 +8,12 @@
 <body>
     <form action="" method="post">
         <input type="text" name="cat">
-        <input type="submit" value="envoyer" name="getCat">
+        <input type="submit" value="envoyer" name="submit">
     </form>
-    <form action="" method="post">
-    <input type="text" name="article">
-        <input type="submit" value="envoyer" name="getArticle">
-    </form>
+    <!-- 
+        pour tester une injection SQL Vous pouvez saisir cet exemple :
+        test'; requête SQL; 
+    -->
 </body>
 </html>
 <?php
