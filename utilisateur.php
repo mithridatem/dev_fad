@@ -1,7 +1,7 @@
 <?php
     /* -------------------------------------------------------
     ---------------------- Logique ----------------------- */
-    
+
     /* Variable pour stocker les messages */
     $message = "";
     /* tester si le bouton est cliqué */
@@ -43,7 +43,7 @@
         try{
             /* Préparer la requête */
             $req = $bdd->prepare("SELECT nom_utilisateur, prenom_utilisateur,
-            mail_utilisateur, password_utilisateur FROM utilisateur WHERE
+            mail_utilisateur, password_utilisateur, role_utilisateur FROM utilisateur WHERE
             mail_utilisateur = :mail");
             $req->execute(
                 ['mail'=>$mail]
