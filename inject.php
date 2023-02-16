@@ -1,5 +1,4 @@
 <?php
-include './utils/connectBdd.php';
     //test si existe
     if(isset($_POST['submit'])){
         //test si le champ est rempli

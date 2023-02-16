@@ -17,6 +17,6 @@
 </body>
 </html>
 <?php
-    include './inject.php';
+    include './utils/connectBdd.php';
     include './inject.php';
 ?>
