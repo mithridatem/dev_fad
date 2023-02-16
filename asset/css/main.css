@@ -1,0 +1,32 @@
+body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+ul{
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    background-color: rgb(25, 25, 25);
+    justify-content:space-evenly;
+}
+li{ 
+    display: flex;
+    align-items: center;
+    height: 5vh;
+}
+a{  
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 12px;
+    text-decoration : none;
+    color: whitesmoke;
+}
+li:hover{
+    background-color: whitesmoke;
+}
+li:hover>a{
+    color: rgb(25, 25, 25);
+}
