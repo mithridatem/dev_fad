@@ -1,53 +1,62 @@
 <?php
-    $mess = "";
-    /* test si le bouton est cliqué */
+    //variable pour stocker
+    $message = "";
+    //tester si le bouton est cliqué
     if(isset($_POST['submit'])){
-        /* vérifier si l'input nom_categorie est bien remplit */
+        /* Si le champ est rempli */
         if(!empty($_POST['nom_categorie'])){
-            $nom = $_POST['nom_categorie'];
-            $data = "";
-            //Exécution de la requête select vérifier si la catégorie n'existe pas déja
-            try{
-                //préparation de la requête
-                $req = $bdd->prepare("SELECT id_categorie FROM categorie WHERE nom_categorie =:nom");
-                //envoi de la requête
-                $req->execute(
-                    ['nom'=>$nom]
-                );
-                $data = $req->fetch(PDO::FETCH_ASSOC);
+            //test si la catégorie existe 
+            if(getCategoryByName($bdd, $_POST['nom_categorie'])){
+                //affiche l'erreur
+                $message = "La catégorie : ".$_POST['nom_categorie']." existe déja";
             }
-            catch(Exception $e){
-                die('Erreur :'.$e->getMessage());
-            }
-            //test si la catégorie existe déja
-            if($data){
-                //remplacement du message d'erreur
-                $mess = "La catégorie : ".$_POST['nom_categorie']." existe déja en BDD";
-            }
-            //sinon ajouter en BDD
+            //si elle n'existe pas
             else{
-                //Exécution de la requête insert
-                try{
-                    //préparation de la requête
-                    $req = $bdd->prepare('INSERT INTO categorie(nom_categorie) VALUES (:nom)');
-                    //envoi de la requête
-                    $req->execute(
-                        ['nom'=>$_POST['nom_categorie']]
-                    );
-                    //remplacement du message d'erreur
-                    $mess = "La catégorie : ".$_POST['nom_categorie']." à été ajouté en BDD";
-                }
-                //lever l'execption
-                catch(Exception $e){
-                    die('Erreur :'.$e->getMessage());
-                }
+                //ajout de la catégorie en BDD
+                addCategory($bdd, $_POST['nom_categorie']);
+                //affiche l'ajout
+                $message = "La catégorie : ".$_POST['nom_categorie']." à été ajouté en BDD";
             }
         }
-        //test si le champ est vide
+        //si le champ est vide
         else{
-            $mess = "Veuillez remplir le champ de formulaire";
+            //affichage de l'erreur
+            $message = "Veuillez remplir le champ de formulaire";
         }
-        //afficher le message
-        echo $mess;
+    }
+    //affiche les messages
+    echo $message;
+    //fonction qui insére en BDD une catégorie par son nom
+    function addCategory($bdd, $value){
+        try{
+            //préparer la requête
+            $req = $bdd->prepare("INSERT INTO categorie(nom_categorie)VALUES
+            (:nom_categorie)");
+            $req->execute(
+                ['nom_categorie'=> $value]
+            );
+        }
+        catch(Exception $e){
+            die('Erreur : ' .$e->getMessage());
+        }
+    }
+    //fonction qui récupére une catégorie par son nom
+    function getCategoryByName($bdd, $value){
+        try{
+            //préparer la requête
+            $req = $bdd->prepare("SELECT id_categorie, nom_categorie FROM categorie
+            WHERE nom_categorie = :nom_categorie");
+            $req->execute(
+                ['nom_categorie'=> $value]
+            );
+            //construction du tableau d'enregistrement
+            $data = $req->fetchAll(PDO::FETCH_ASSOC);
+            //on renvoi le tableau d'enregistrement
+            return $data;
+        }
+        //gestion des erreurs (lever une exception)
+        catch(Exception $e){
+            die('Erreur : ' .$e->getMessage());
+        }
     }
 ?>
